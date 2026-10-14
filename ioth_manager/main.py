@@ -1,6 +1,6 @@
 from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer, Input, Button, Log
-from native import get_bridge_version, init_stack
+from ioth_manager.native import get_bridge_version, init_stack
 
 
 class IoThMiniApp(App):
