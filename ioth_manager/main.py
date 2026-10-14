@@ -1,6 +1,6 @@
-from textual.app import App, ComposeResult
-from textual.widgets import Header, Footer, Input, Button, Log
 from native import get_bridge_version, init_stack
+from textual.app import App, ComposeResult
+from textual.widgets import Button, Footer, Header, Input, Log
 
 
 class IoThMiniApp(App):
@@ -9,6 +9,10 @@ class IoThMiniApp(App):
     BINDINGS = [("q", "quit", "Esci")]
 
     def compose(self) -> ComposeResult:
+        """
+        la funzione compose viene chiamata all'avvio dell'app.
+        Le yield sono le varie parti dell'interfaccia, vengono create in un ciclo (la yield rende i componenti dei generatori/iteratori).
+        """
         yield Header()
         yield Input(placeholder="Nome dello stack (es. my_stack)...", id="stack_input")
         yield Button("Crea Stack", id="btn_create", variant="primary")
@@ -16,8 +20,11 @@ class IoThMiniApp(App):
         yield Footer()
 
     def on_mount(self) -> None:
-        """Eseguito all'avvio: scrive la versione C nel log."""
+        """
+        finita la composizione dell'interfaccia, viene eseguito on_mount, che scrive la versione C nel log.
+        """
         versione_c = get_bridge_version()
+        # query_one cerca il primo widget Log e scrive la versione C nel log.
         self.query_one(Log).write_line(f"Bridge C collegato - Versione: {versione_c}")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
@@ -43,3 +50,4 @@ class IoThMiniApp(App):
 if __name__ == "__main__":
     app = IoThMiniApp()
     app.run()
+
