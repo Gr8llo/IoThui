@@ -93,6 +93,10 @@ class IoThManagerApp(App):
     """
 
     def compose(self) -> ComposeResult:
+        """
+        la funzione compose viene chiamata all'avvio dell'app.
+        Le yield sono le varie parti dell'interfaccia, vengono create in un ciclo (la yield rende i componenti dei generatori/iteratori).
+        """
         with Vertical(id="stacks-box") as box_stacks:
             box_stacks.border_title = "IoTh Stacks"
             yield DataTable(id="table-stacks", show_cursor=True, zebra_stripes=False)
@@ -107,11 +111,15 @@ class IoThManagerApp(App):
         )
 
     def on_mount(self) -> None:
+        """
+        finita la composizione dell'interfaccia, viene eseguito on_mount, che popola le tabelle e inserisce la versione C.
+        """
         # Imposta il tema ANSI puro se disponibile nella versione di Textual installata
         if "textual-ansi" in self.available_themes:
             self.theme = "textual-ansi"
 
         # 1. Tabella superiore: Stack IoTh
+        # query_one cerca il widget specifico tramite il suo ID (#table-stacks)
         t_stacks = self.query_one("#table-stacks", DataTable)
         t_stacks.cursor_type = "row"
         t_stacks.add_columns("Stack Name", "Interface", "VDE Socket", "Active")
@@ -121,9 +129,10 @@ class IoThManagerApp(App):
         t_stacks.add_row("ioth_test", "veth0", "/tmp/test.ctl", "false")
 
         # 2. Tabella inferiore: Info Bridge C
+        versione_c = get_bridge_version()
         t_info = self.query_one("#table-info", DataTable)
         t_info.add_columns("Name", "Host", "Backend", "Version", "Status")
-        t_info.add_row("ioth0", "arch-btw", "libioth", get_bridge_version(), "On")
+        t_info.add_row("ioth0", "arch-btw", "libioth", versione_c, "On")
 
     def action_cursor_down(self) -> None:
         self.query_one("#table-stacks", DataTable).action_cursor_down()

@@ -5,12 +5,13 @@ from pathlib import Path
 # Percorso della libreria compilata
 
 '''
+# file compilato di c
 LIB_PATH = Path(__file__).resolve().parent.parent / "c_src" / "libioth_bridge.so"
 
 if not LIB_PATH.exists():
     raise FileNotFoundError(f"Libreria nativa non trovata in {LIB_PATH}. Compila prima con 'make' in c_src/")
 
-# Caricamento del binario
+# Caricamento del binario in memoria python tramite ctypes
 _lib = ctypes.CDLL(str(LIB_PATH))
 
 # Configurazione tipi di input/output per sicurezza dei tipi (argtypes e restype)
@@ -32,9 +33,13 @@ def init_stack(stack_name: str) -> bool:
     return status == 0
 
 '''
+
+
 def init_stack(stack_name: str) -> bool:
     return True
+
 
 def get_bridge_version() -> str:
     """Restituisce la versione del modulo C."""
     return "test"
+
