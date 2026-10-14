@@ -50,4 +50,3 @@ class IoThMiniApp(App):
 if __name__ == "__main__":
     app = IoThMiniApp()
     app.run()
-
